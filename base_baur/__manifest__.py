@@ -17,6 +17,7 @@
         'views/sale.xml',
         'report/invoice_report_views.xml',
         'report/sale_report_views.xml',
+        'report/contact_report_template.xml',
     ],
     'installable': True,
 }

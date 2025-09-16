@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="contact_report_template">
+        <div class="page">
+            <div class="row">
+              <div class="col-4">
+                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/>
+              </div>
+              <div class="col-4">
+                <span t-field="doc.x_studio_herkunft"></span>
+              </div>
+              <div class="col-4">
+                <span>PLZ:</span>
+                <span t-field="doc.zip"></span>
+              </div>
+            </div>
+        </div>
+    </template>
+    <template id="main_contact_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <!-- <t t-call="base_baur.contact_report_template"/> -->
+                <!-- <div class="page">
+                    <div class="row p-3" style="margin-left:20px;margin-right:20px;margin-top:0px;border: 1px solid #dee2e6 !important;background-color: #f8f9fa !important;color: #212529;">
+                      <div class="col-4">
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/>
+                      </div>
+                      <div class="col-4">
+                        <span t-field="doc.x_studio_herkunft"></span>
+                      </div>
+                      <div class="col-4">
+                        <span>PLZ:</span>
+                        <span t-field="doc.zip"></span>
+                      </div>
+                    </div>
+                </div> -->
+                <div class="page" style="margin-top:10px">
+        <div class="row p-3 border bg-light" style="margin-top:20px;margin-left:20px;margin-right:20px">
+            <div class="col-4">
+                <span>.</span>
+            </div>
+            <div class="col-4">
+                <span>.</span>
+            </div>
+            <div class="col-4">
+                <span style="width:100px;display:inline-block">
+                    <font style="font-size: 24px;">PLZ:</font>
+                </span>
+                <span class="h1" t-field="doc.zip" />
+            </div>
+        </div>
+        <div class="row" style="margin-top:20px;margin-left:20px;margin-right:20px">
+            <div class="col-4 border-top border-left">
+                <span>
+                  <b>Datum:</b>
+                </span>
+            </div>
+            <div class="col-4 border-top border-left">
+                <span>
+                    <b>Volumen:</b>
+                </span>
+            </div>
+            <div class="col-4 border-top border-left border-right">
+                <span>
+                    <b>Bestellt:</b>
+                </span>
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-4 border-left border-bottom">
+                <span t-field="doc.x_studio_aktuelles_datum" />
+            </div>
+            <div class="col-4 border-left border-bottom">
+                <span t-field="doc.x_studio_volumen" />
+            </div>
+            <div class="col-4 border-left border-bottom border-right">
+                <span>.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .<br /></span>
+            </div>
+        </div>
+        <div class="row border bg-light" style="margin-top:20px;margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span>
+                    <font style="font-size: 18px;">Objektadresse</font>
+                </span>
+            </div>
+            <div class="col-6">
+                <span> </span>
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">Name</span>
+                <span t-field="doc.name" />
+            </div>
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">2. Person<br /></span>
+                <span t-field="doc.x_studio_name2" />
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">Adresse</span>
+                <span>New Text Block</span>
+                <span t-if="doc.street2">, <br /></span>
+                <span t-if="doc.street2" t-field="doc.street" />
+            </div>
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">Ort</span>
+                <span t-field="doc.city" />
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">Tel. P<br /></span>
+                <span t-field="doc.x_studio_private_phone" />
+            </div>
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">Tel. G<br /></span>
+                <span t-field="doc.phone" />
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">Mobile</span>
+                <span t-field="doc.mobile" />
+            </div>
+            <div class="col-6">
+                <span>Rechnungsadresse</span>
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-top:20px;margin-right:20px">
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">E-Mail</span>
+                <span t-field="doc.email" />
+            </div>
+            <div class="col-6">
+                <span style="width:70px;display:inline-block">VS</span>
+                <span>.  .  .  .  .  .  .  .  .  .  .  .  .  .<br /></span>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <table class="table o_report_block_table">
+            <thead>
+                <tr>
+                    <th>
+                        <span>Name</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="doc.child_ids" t-as="table_line">
+                    <td>
+                        <span style="width:70px;display:inline-block">Adresse</span>
+                        <span t-field="table_line.street" />
+                        <span t-if="table_line.street2">, <br /></span>
+                        <span t-field="table_line.street2" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span>New Column</span>
+                <span t-field="doc.parent_id.street" />
+            </div>
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-right:20px">
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+        </div>
+        <div class="row" style="margin-left:20px;margin-top:20px;margin-right:20px">
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+            <div class="col-6">
+                <span>New Column</span>
+            </div>
+        </div>
+        <img class="img-fluid" src="/web/image/740-fbb7f9e9/laufblatt.png" style="margin-left:25px;margin-top:20px" />
+    </div>
+                <p style="page-break-after: always;"/>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_contact" model="ir.actions.report">
+        <field name="name">Laufblatt</field>
+        <field name="model">res.partner</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">base_baur.main_contact_report_template</field>
+        <field name="report_file">base_baur.main_contact_report_template</field>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="l10n_ch.paperformat_euro_no_margin"/>
+    </record>
+</odoo>
