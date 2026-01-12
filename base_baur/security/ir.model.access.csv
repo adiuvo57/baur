@@ -1,3 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 base_baur.access_text_blocks,access_text_blocks,base_baur.model_text_blocks,base.group_user,1,1,1,1
-base_baur.access_x_farben,access_x_farben,base_baur.model_x_farben,base.group_user,1,1,1,1
