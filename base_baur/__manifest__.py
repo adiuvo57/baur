@@ -2,10 +2,9 @@
 # Powered by Mindphin Technologies.
 {
     'name': '(sd) Baur Report',
-    # Bumped for Odoo 19.0 while keeping the same functional behavior as 15.0
-    'version': '19.0.1.0.0',
-    "summary": 'Baur custom reports and fields',
-    'description': '',
+    'version': '1.0',
+    "summary": '',
+    'description': """ """,
     "category": "Sales",
     'author': 'Soludoo',
     'website': 'https://www.soludoo.ch/',
