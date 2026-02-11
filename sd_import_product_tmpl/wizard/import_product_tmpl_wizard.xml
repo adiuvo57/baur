@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="import_product_wizard_form_view" model="ir.ui.view">
+        <field name="name">import.product.wizard.form</field>
+        <field name="model">import.product.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="import_mode"/>
+                        <field name="xlsx_file" colspan="2" string="Upload XLSX File" />
+                    </group>
+                </group>
+                <footer>
+                    <button string="Import" name="import_xlsx_file" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="btn btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="sd_import_product_tmpl_action" model="ir.actions.act_window">
+        <field name="name">Import Product</field>
+        <field name="res_model">import.product.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="import_product_wizard_form_view" />
+        <field name="target">new</field>
+    </record>
+</odoo>

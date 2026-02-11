@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem name="(sd) Import Products" action="sd_import_product_tmpl.sd_import_product_tmpl_action" id="sd_import_product_tmpl_menu" parent="sale.menu_sale_config" />
+</odoo>
