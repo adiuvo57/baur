@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='payment_reference']" position="after">
                <div class="o_row" colspan="6">
-                    <field name="x_studio_ausmessen_liefern_und_montieren" nolabel="1"/>
+                    <!-- <field name="x_studio_ausmessen_liefern_und_montieren" nolabel="1"/> -->
                     <field name="ausmessen_liefern_und_montieren_text"/>
                 </div>
                 <div class="o_row" colspan="6">
@@ -23,8 +23,8 @@
                                 <field name="garantie" nolabel="1"/>
                                 <field name="garantie_sep" nolabel="1"/>
                             </div>
-                            <field name="garantie_label" attrs="{'invisible': [('garantie', '=', False)]}" placeholder="Report label..." colspan="8" nolabel="1"/>
-                            <field name="garantie_text" attrs="{'invisible': [('garantie', '=', False)]}" placeholder="Report text..." colspan="8" nolabel="1"/>
+                            <field name="garantie_label" invisible="not garantie" placeholder="Report label..." colspan="8" nolabel="1"/>
+                            <field name="garantie_text" invisible="not garantie" placeholder="Report text..." colspan="8" nolabel="1"/>
                         </group>
 
                         <group>
@@ -32,8 +32,8 @@
                                 <field name="garantie_wiederverkaufer" nolabel="1"/>
                                 <field name="garantie_wiederverkaufer_sep" nolabel="1"/>
                             </div>
-                            <field name="garantie_wiederverkaufer_label" attrs="{'invisible': [('garantie_wiederverkaufer', '=', False)]}" placeholder="Report label..." colspan="8" nolabel="1"/>
-                            <field name="garantie_wiederverkaufer_text" attrs="{'invisible': [('garantie_wiederverkaufer', '=', False)]}" placeholder="Report text..." colspan="8" nolabel="1"/>
+                            <field name="garantie_wiederverkaufer_label" invisible="not garantie_wiederverkaufer" placeholder="Report label..." colspan="8" nolabel="1"/>
+                            <field name="garantie_wiederverkaufer_text" invisible="not garantie_wiederverkaufer" placeholder="Report text..." colspan="8" nolabel="1"/>
                         </group>
 
                         <group>

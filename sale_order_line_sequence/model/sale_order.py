@@ -70,8 +70,8 @@ class AddSection(models.TransientModel):
     def add_line(self):
         if self.env.context.get('active_id'):
             if self.display_type == 'product':
-                line = self.env['sale.order.line'].create({'product_id': self.product_id.id,'name':'aaa','order_id':self.order_id.id,'sequence2':self.seq})
-                line.product_id_change()
+                line = self.env['sale.order.line'].create({'product_id': self.product_id.id,'order_id':self.order_id.id,'sequence2':self.seq})
+                # In Odoo 19.0, onchange is automatically triggered when product_id is set during create
                 next_lines = self.env['sale.order.line'].search([('order_id','=',self.order_id.id),('sequence','>',self.seq),('sequence','<',self.seq+999)])
                 for ll in next_lines:
                     ll.sequence2 = self.seq+1
