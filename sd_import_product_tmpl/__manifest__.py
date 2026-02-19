@@ -13,7 +13,7 @@
     'category': 'Extra Tools',
     'version': '19.0.1.0',
     'license': 'OPL-1',
-    'depends': ['sale_management', 'product', 'website_sale'],
+    'depends': ['sale_management', 'product'],
     'data': [
             'security/ir.model.access.csv',
             "wizard/import_product_tmpl_wizard.xml",

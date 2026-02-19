@@ -343,7 +343,7 @@ class SaleOrder(models.Model):
     freier_text = fields.Html('Freier Text')
     ausmessen_liefern_und_montieren_text = fields.Char(string="Ausmessen, liefern und montieren", default="Ausmessen, liefern und montieren")
     reparieren_ersetzen_von_text = fields.Char(string="Reparieren / Ersetzen von", default="Reparieren / Ersetzen von")
-
+    date_order = fields.Datetime(string='Order Date', required=True, index=True, copy=False, default=fields.Datetime.now, help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.")
 
     @api.onchange('freier_text_block_id')
     def onchange_freier_text_block_id(self):
