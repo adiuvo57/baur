@@ -3,10 +3,11 @@
 
 from datetime import timedelta
 
-from odoo import fields, models, api
+from odoo import _, fields, models, api
+from odoo.fields import Command
+from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 from odoo.tools import format_date, formatLang, frozendict
-
 from odoo.tools import is_html_empty
 
 class AccountPaymentTerm(models.Model):
@@ -30,13 +31,13 @@ class AccountPaymentTerm(models.Model):
         for payment_term in self:
             payment_term.example_invalid = len(payment_term.line_ids.filtered(lambda l: l.value == 'balance')) != 1
 
-    @api.depends('example_amount', 'example_date', 'line_ids.value', 'line_ids.value_amount',
-                 'line_ids.days')
+    @api.depends('example_amount', 'example_date', 'line_ids.value', 'line_ids.value_amount')
     def _compute_example_preview(self):
         for record in self:
             example_preview = ""
             if not record.example_invalid:
                 currency = self.env.company.currency_id
+                breakpoint()
                 terms = record._compute_terms(
                     date_ref=record.example_date,
                     currency=currency,
@@ -187,7 +188,9 @@ class AccountPaymentTermLine(models.Model):
 
     def _get_due_date(self, date_ref):
         self.ensure_one()
-        due_date = fields.Date.from_string(date_ref)
+        # fields.Date.from_string is deprecated in newer Odoo versions;
+        # fields.Date.to_date provides the same behavior for converting to a date.
+        due_date = fields.Date.to_date(date_ref)
         due_date += relativedelta(months=self.months)
         due_date += relativedelta(days=self.days)
         if self.end_month:
@@ -290,6 +293,26 @@ class SaleOrderTemplate(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # Studio fields migrated to Python so they are available without Studio.
+    x_show_art_no = fields.Boolean(string="Show art-no")
+    x_show_art_nr = fields.Char(string="Show art-no")
+    x_studio_date_order = fields.Datetime(string="New Datum & Uhrzeit")
+    x_studio_lieferfrist = fields.Selection(
+        [
+            ('ca. 6 Wochen', 'ca. 6 Wochen'),
+            ('ca. 8 Wochen', 'ca. 8 Wochen'),
+            ('6 - 8 Wochen', '6 - 8 Wochen'),
+            ('8 - 10 Wochen', '8 - 10 Wochen'),
+            ('4 Wochen', '4 Wochen'),
+            ('ca. 4 Wochen, wird abgeholt in Uttigen', 'ca. 4 Wochen, wird abgeholt in Uttigen'),
+            ('ca. 4 Wochen, wird geliefert', 'ca. 4 Wochen, wird geliefert'),
+            ('ca. 3 bis 4 Wochen', 'ca. 3 bis 4 Wochen'),
+            ('4 - 6 Wochen', '4 - 6 Wochen'),
+        ],
+        string="Lieferfrist",
+    )
+    x_studio_garantievermerk = fields.Boolean(string="Garantievermerk")
+    x_studio_rabatt_anzeigen = fields.Boolean(string="Rabatt anzeigen")
     termin = fields.Boolean(string="Show Termin")
     termin_sep = fields.Char(default="Termin")
     termin_label = fields.Char(default="Termin:")
@@ -343,7 +366,11 @@ class SaleOrder(models.Model):
     freier_text = fields.Html('Freier Text')
     ausmessen_liefern_und_montieren_text = fields.Char(string="Ausmessen, liefern und montieren", default="Ausmessen, liefern und montieren")
     reparieren_ersetzen_von_text = fields.Char(string="Reparieren / Ersetzen von", default="Reparieren / Ersetzen von")
-    date_order = fields.Datetime(string='Order Date', required=True, index=True, copy=False, default=fields.Datetime.now, help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.")
+    x_studio_ausmessen_liefern_und_montieren = fields.Boolean(string="Ausmessen, liefern und montieren")
+    x_studio_reparieren_ersetzen_von = fields.Boolean(string="Reparieren / Ersetzen von")
+    x_studio_lieferadresse_drucken = fields.Boolean(string="Lief-Adr. drucken")
+    x_studio_rechnungsadresse_drucken = fields.Boolean(string="Rech-Adr. drucken")
+
 
     @api.onchange('freier_text_block_id')
     def onchange_freier_text_block_id(self):
@@ -378,72 +405,64 @@ class SaleOrder(models.Model):
                 record.garantie_wiederverkaufer_text = "3 Jahre Garantie auf Produkte (exkl. auf Gewebe) Schäden durch unsachgemässe Montage sind nicht garantieberechtigt"
 
     @api.onchange('sale_order_template_id')
-    def onchange_sale_order_template_id(self):
-        #res = super(SaleOrder, self).onchange_sale_order_template_id()
+    def _onchange_sale_order_template_id(self):
+        """Adaptation of Odoo 19.0 logic to keep Baur-specific behaviour.
 
+        - Uses the 19.0 way of generating order lines from the template
+          (line._prepare_order_line_values()).
+        - Respects the custom 'remove_order_existing_line' flag from the template:
+          when true, existing lines are cleared; when false, new lines are appended.
+        - Keeps copying the Baur-specific fields from the template to the order.
+        """
         if not self.sale_order_template_id:
-            self.require_signature = self._get_default_require_signature()
-            self.require_payment = self._get_default_require_payment()
             return
 
         template = self.sale_order_template_id.with_context(lang=self.partner_id.lang)
 
-        # --- first, process the list of products from the template
-        order_lines = []
-        if not self.sale_order_template_id.remove_order_existing_line:
-            order_lines = []
-        else:
-            order_lines = [(5, 0, 0)]
+        # --- process the list of products from the template
+        order_lines_data = []
+        remove_existing = getattr(self.sale_order_template_id, 'remove_order_existing_line', False)
+
+        if remove_existing:
+            # Clear existing order lines first, then add template lines.
+            order_lines_data.append(Command.clear())
 
         for line in template.sale_order_template_line_ids:
-            data = self._compute_line_data_for_template_change(line)
+            order_lines_data.append(Command.create(line._prepare_order_line_values()))
 
-            if line.product_id:
-                price = line.product_id.lst_price
-                discount = 0
+        # When we are replacing all lines, keep the "sequence hack" from Odoo 19
+        # to avoid re-sequencing issues between pages.
+        if remove_existing and len(order_lines_data) >= 2:
+            order_lines_data[1][2]['sequence'] = -99
 
-                if self.pricelist_id:
-                    pricelist_price = self.pricelist_id.with_context(uom=line.product_uom_id.id).get_product_price(line.product_id, 1, False)
+        if remove_existing:
+            self.order_line = order_lines_data
+        else:
+            # Append new lines on top of existing ones.
+            self.order_line = self.order_line + order_lines_data
 
-                    if self.pricelist_id.discount_policy == 'without_discount' and price:
-                        discount = max(0, (price - pricelist_price) * 100 / price)
-                    else:
-                        price = pricelist_price
-
-                data.update({
-                    'price_unit': price,
-                    'discount': discount,
-                    'product_uom_qty': line.product_uom_qty,
-                    'product_id': line.product_id.id,
-                    'product_uom': line.product_uom_id.id,
-                    'customer_lead': self._get_customer_lead(line.product_id.product_tmpl_id),
-                })
-
-            order_lines.append((0, 0, data))
-
-        self.order_line = order_lines
+        # Ensure taxes are recomputed on the modified lines.
         self.order_line._compute_tax_id()
 
-        # then, process the list of optional products from the template
-        option_lines = []
-        for option in template.sale_order_template_option_ids:
-            data = self._compute_option_data_for_template_change(option)
-            option_lines.append((0, 0, data))
+        # --- optional products from the template (only if those fields exist in this DB)
+        if hasattr(self, 'sale_order_option_ids') and hasattr(template, 'sale_order_template_option_ids'):
+            option_lines = []
+            for option in template.sale_order_template_option_ids:
+                # In 19.0 there is no public helper like _compute_option_data_for_template_change,
+                # so we map the most important fields directly if they exist.
+                vals = {}
+                for field_name in ['name', 'discount', 'sequence', 'product_id', 'quantity', 'price_unit', 'uom_id', 'line_id']:
+                    if field_name in option._fields:
+                        value = getattr(option, field_name)
+                        # Many2one fields must use their id in x2many commands.
+                        if field_name in ['product_id', 'uom_id', 'line_id']:
+                            value = value.id
+                        vals[field_name] = value
+                option_lines.append((0, 0, vals))
+            self.sale_order_option_ids = option_lines
 
-        self.sale_order_option_ids = option_lines
-
-        if template.number_of_days > 0:
-            self.validity_date = fields.Date.context_today(self) + timedelta(template.number_of_days)
-
-        self.require_signature = template.require_signature
-        self.require_payment = template.require_payment
-
-        if not is_html_empty(template.note):
-            self.note = template.note
-
-
+        # --- copy Baur-specific fields from the template to the order
         if self.sale_order_template_id:
-            template = self.sale_order_template_id
             if template.pricelist_id:
                 self.pricelist_id = template.pricelist_id.id
             self.x_studio_lieferfrist = template.x_studio_lieferfrist
@@ -511,7 +530,6 @@ class SaleOrder(models.Model):
             self.freier_text = template.freier_text
             self.x_studio_ausmessen_liefern_und_montieren = template.ausmessen_liefern_und_montieren
             self.x_studio_reparieren_ersetzen_von = template.reparieren_ersetzen_von
-        #return res
 
     def _create_invoices(self, grouped=False, final=False, date=None):
         res = super(SaleOrder, self)._create_invoices(grouped=grouped, final=final, date=date)
@@ -535,19 +553,34 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
+    x_studio_farbe = fields.Many2one("x_farben", string="Farbe")
+    x_studio_groesse = fields.Char("Grösse")
+
     @api.onchange('product_id')
-    def product_id_change(self):
-        res = super(SaleOrderLine, self).product_id_change()
-        if self.product_id:
-            if self.product_id.farbe:
-                self.x_studio_farbe = self.product_id.farbe
-            if self.product_id.grosse:
-                self.x_studio_groesse = self.product_id.grosse
-        return res
+    def _onchange_baur_product_id(self):
+        """When the product changes, copy Farbe/Grösse from the product.
+
+        In Odoo 19.0 the core onchange is implemented in other methods
+        (e.g. ``_onchange_product_id``), so we don't call ``super()`` here;
+        we only extend the behavior by setting our custom fields.
+        """
+        for line in self:
+            if not line.product_id:
+                continue
+            if hasattr(line.product_id, 'farbe') and line.product_id.farbe:
+                line.x_studio_farbe = line.product_id.farbe
+            if hasattr(line.product_id, 'grosse') and line.product_id.grosse:
+                line.x_studio_groesse = line.product_id.grosse
 
 
 class AccountMove(models.Model):
     _inherit = "account.move"
+
+    # Fields mirrored from Studio / sale order for report compatibility.
+    x_show_art_no = fields.Boolean(string="Show art-no")
+    x_show_art_nr = fields.Char(string="Show art-no")
+    x_studio_garantievermerk = fields.Boolean(string="Garantievermerk")
+    x_studio_rabatt_anzeigen = fields.Boolean(string="Rabatt anzeigen")
 
     garantie = fields.Boolean(string="Show Garantie")
     garantie_sep = fields.Char(default="Garantie")

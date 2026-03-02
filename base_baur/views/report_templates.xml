@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="base_baur_external_layout_standard_inherit" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[1]" position="replace" />
+        <!-- 3 divs originally, replace the 1st div.
+        and replaces the 3rd div, which became 2nd. -->
+        <xpath expr="//div[2]" position="replace" />
+    </template>
+</odoo>

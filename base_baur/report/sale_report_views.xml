@@ -12,9 +12,96 @@
                         <p>Tel.        033 345 07 77<br/>Mail       info@baur-uttigen.ch<br/>Web      www.baur-uttigen.ch<br/>MWST  CHE-279.642.932 MWST</p>
                     </div>
                 </div>
-                <br/>
-                <br/>
-                <div class="row address">
+                <!-- <div class="row address">
+                    <div class="col-3" style="line-height: 1.2;font-family: Roboto; font-size: 12px;">
+                        <t t-if="doc.x_studio_rechnungsadresse_drucken and doc.partner_invoice_id">
+                            <br/>
+                            <br/>
+                            <span><strong>Rechnungsadresse:</strong></span><br/>
+                            <t t-if="doc.partner_invoice_id.name"><span t-field="doc.partner_invoice_id.name"/><br/></t>
+                            <t t-if="not doc.partner_invoice_id.name"><span t-field="doc.partner_invoice_id.parent_id.name"/><br/></t>
+                            <t t-if="doc.partner_invoice_id.x_studio_name2"><span t-field="doc.partner_invoice_id.x_studio_name2"/><br/></t>
+                            <t t-if="not doc.partner_invoice_id.name and doc.partner_invoice_id.parent_id.x_studio_name2"><span t-field="doc.partner_invoice_id.parent_id.x_studio_name2"/><br/></t>
+                            <t t-if="doc.partner_invoice_id.street"><span t-field="doc.partner_invoice_id.street"/><br/></t>
+                            <t t-if="doc.partner_invoice_id.street2"><span t-field="doc.partner_invoice_id.street2"/><br/></t>
+                            <t t-if="doc.partner_invoice_id.zip"><span t-field="doc.partner_invoice_id.zip"/></t>
+                            <t t-if="doc.partner_invoice_id.state_id.name"><span t-field="doc.partner_invoice_id.state_id.name"/></t>
+                            <t t-if="doc.partner_invoice_id.city"><span t-field="doc.partner_invoice_id.city"/><br/></t>
+                        </t>
+                    </div>
+                    
+                    <div class="col-3" style="line-height: 1.2;font-family: Roboto; font-size: 12px;">
+                        <t t-if="doc.x_studio_lieferadresse_drucken and doc.partner_shipping_id">
+                            <br/>
+                            <br/>
+                            <span><strong>Lieferadresse:</strong></span><br/>
+                            <t t-if="doc.partner_shipping_id.name"><span t-field="doc.partner_shipping_id.name"/><br/></t>
+                            <t t-if="not doc.partner_shipping_id.name"><span t-field="doc.partner_shipping_id.parent_id.name"/><br/></t>
+                            <t t-if="doc.partner_shipping_id.x_studio_name2"><span t-field="doc.partner_shipping_id.x_studio_name2"/><br/></t>
+                            <t t-if="not doc.partner_shipping_id.name and doc.partner_shipping_id.parent_id.x_studio_name2"><span t-field="doc.partner_shipping_id.parent_id.x_studio_name2"/><br/></t>
+                            <t t-if="doc.partner_shipping_id.street"><span t-field="doc.partner_shipping_id.street"/><br/></t>
+                            <t t-if="doc.partner_shipping_id.street2"><span t-field="doc.partner_shipping_id.street2"/><br/></t>
+                            <t t-if="doc.partner_shipping_id.zip"><span t-field="doc.partner_shipping_id.zip"/></t>
+                            <t t-if="doc.partner_shipping_id.state_id.name"><span t-field="doc.partner_shipping_id.state_id.name"/></t>
+                            <t t-if="doc.partner_shipping_id.city"><span t-field="doc.partner_shipping_id.city"/><br/></t>
+                        </t>
+                    </div>
+                    <div class="col-1" style="line-height: 1.2;font-family: Roboto; font-size: 12px;">
+                    </div>
+                    <div class="col-5">
+                        <div t-field="doc.partner_id" t-options-widget="'contact'" t-options-fields="['name', 'address', 'phone', 'mobile','x_studio_name2']"/>
+                        <span style="font-family: Roboto; font-size: 10px;"><strong> </strong></span><br/>
+                        <t t-if="doc.partner_id.name"><span t-field="doc.partner_id.name"/><br/></t>
+                        <t t-if="doc.partner_id.x_studio_name2"><span t-field="doc.partner_id.x_studio_name2"/><br/></t>
+                        <t t-if="doc.partner_id.street"><span t-field="doc.partner_id.street"/><br/></t>
+                        <t t-if="doc.partner_id.street2"><span t-field="doc.partner_id.street2"/><br/></t>
+                        <t t-if="doc.partner_id.zip"><span t-field="doc.partner_id.zip"/></t>
+                        <t t-if="doc.partner_id.state_id.name"><span t-field="doc.partner_id.state_id.name"/></t>
+                        <t t-if="doc.partner_id.city"><span t-field="doc.partner_id.city"/><br/></t>
+                        <t t-if="doc.partner_id.country_id.name"><span t-field="doc.partner_id.country_id.name"/><br/></t>
+                    </div>
+                </div> -->
+                <!--<div class="row address mb-3">-->
+                <!--    <div class="col-3">-->
+                <!--        <t t-if="doc.x_studio_rechnungsadresse_drucken and doc.partner_invoice_id">-->
+                <!--            <span style="font-family: Roboto; font-size: 10px;"><strong>Rechnungsadresse:</strong></span><br/>-->
+                <!--            <t t-if="doc.partner_invoice_id.name"><span t-field="doc.partner_invoice_id.name"/><br/></t>-->
+                <!--            <t t-if="not doc.partner_invoice_id.name"><span t-field="doc.partner_invoice_id.parent_id.name"/><br/></t>-->
+                <!--            <t t-if="doc.partner_invoice_id.x_studio_name2"><span t-field="doc.partner_invoice_id.x_studio_name2"/><br/></t>-->
+                <!--            <t t-if="not doc.partner_invoice_id.name and doc.partner_invoice_id.parent_id.x_studio_name2"><span t-field="doc.partner_invoice_id.parent_id.x_studio_name2"/><br/></t>-->
+                <!--            <t t-if="doc.partner_invoice_id.street"><span t-field="doc.partner_invoice_id.street"/><br/></t>-->
+                <!--            <t t-if="doc.partner_invoice_id.street2"><span t-field="doc.partner_invoice_id.street2"/><br/></t>-->
+                <!--            <t t-if="doc.partner_invoice_id.zip"><span t-field="doc.partner_invoice_id.zip"/></t>-->
+                <!--            <t t-if="doc.partner_invoice_id.state_id.name"><span t-field="doc.partner_invoice_id.state_id.name"/></t>-->
+                <!--            <t t-if="doc.partner_invoice_id.city"><span t-field="doc.partner_invoice_id.city"/><br/></t>-->
+                <!--        </t>-->
+                <!--    </div>-->
+                <!--    <div class="col-3">-->
+                <!--        <t t-if="doc.x_studio_lieferadresse_drucken and doc.partner_shipping_id">-->
+                <!--            <span style="font-family: Roboto; font-size: 10px;"><strong>Lieferadresse:</strong></span><br/>-->
+                <!--            <t t-if="doc.partner_shipping_id.name"><span t-field="doc.partner_shipping_id.name"/><br/></t>-->
+                <!--            <t t-if="not doc.partner_shipping_id.name"><span t-field="doc.partner_shipping_id.parent_id.name"/><br/></t>-->
+                <!--            <t t-if="doc.partner_shipping_id.x_studio_name2"><span t-field="doc.partner_shipping_id.x_studio_name2"/><br/></t>-->
+                <!--            <t t-if="not doc.partner_shipping_id.name and doc.partner_shipping_id.parent_id.x_studio_name2"><span t-field="doc.partner_shipping_id.parent_id.x_studio_name2"/><br/></t>-->
+                <!--            <t t-if="doc.partner_shipping_id.street"><span t-field="doc.partner_shipping_id.street"/><br/></t>-->
+                <!--            <t t-if="doc.partner_shipping_id.street2"><span t-field="doc.partner_shipping_id.street2"/><br/></t>-->
+                <!--            <t t-if="doc.partner_shipping_id.zip"><span t-field="doc.partner_shipping_id.zip"/></t>-->
+                <!--            <t t-if="doc.partner_shipping_id.state_id.name"><span t-field="doc.partner_shipping_id.state_id.name"/></t>-->
+                <!--            <t t-if="doc.partner_shipping_id.city"><span t-field="doc.partner_shipping_id.city"/><br/></t>-->
+                <!--        </t>-->
+                <!--    </div>-->
+                <!--</div>-->
+            </xpath>
+            <xpath expr="//t[@t-set='layout_document_title']" position="replace"/>
+            <xpath expr="//t[@t-set='address']" position="replace"/>
+            <xpath expr="//div[@id='informations']" position="replace">
+                <t t-set="baur_layout_document_title">
+                    <span t-if="is_proforma">Pro-Forma Invoice # </span>
+                    <span t-elif="doc.state in ['draft','sent']">Quotation # </span>
+                    <span t-else="">Order # </span>
+                    <span t-field="doc.name">SO0000</span>
+                </t>
+                <div class="row address mb-5">
                     <div class="col-3" style="line-height: 1.2;font-family: Roboto; font-size: 12px;">
                         <t t-if="doc.x_studio_rechnungsadresse_drucken and doc.partner_invoice_id">
                             <br/>
@@ -63,40 +150,13 @@
                         <!--<t t-if="doc.partner_id.country_id.name"><span t-field="doc.partner_id.country_id.name"/><br/></t>-->
                     </div>
                 </div>
-                <br/>
-                <br/>
-                <!--<div class="row address mb-3">-->
-                <!--    <div class="col-3">-->
-                <!--        <t t-if="doc.x_studio_rechnungsadresse_drucken and doc.partner_invoice_id">-->
-                <!--            <span style="font-family: Roboto; font-size: 10px;"><strong>Rechnungsadresse:</strong></span><br/>-->
-                <!--            <t t-if="doc.partner_invoice_id.name"><span t-field="doc.partner_invoice_id.name"/><br/></t>-->
-                <!--            <t t-if="not doc.partner_invoice_id.name"><span t-field="doc.partner_invoice_id.parent_id.name"/><br/></t>-->
-                <!--            <t t-if="doc.partner_invoice_id.x_studio_name2"><span t-field="doc.partner_invoice_id.x_studio_name2"/><br/></t>-->
-                <!--            <t t-if="not doc.partner_invoice_id.name and doc.partner_invoice_id.parent_id.x_studio_name2"><span t-field="doc.partner_invoice_id.parent_id.x_studio_name2"/><br/></t>-->
-                <!--            <t t-if="doc.partner_invoice_id.street"><span t-field="doc.partner_invoice_id.street"/><br/></t>-->
-                <!--            <t t-if="doc.partner_invoice_id.street2"><span t-field="doc.partner_invoice_id.street2"/><br/></t>-->
-                <!--            <t t-if="doc.partner_invoice_id.zip"><span t-field="doc.partner_invoice_id.zip"/></t>-->
-                <!--            <t t-if="doc.partner_invoice_id.state_id.name"><span t-field="doc.partner_invoice_id.state_id.name"/></t>-->
-                <!--            <t t-if="doc.partner_invoice_id.city"><span t-field="doc.partner_invoice_id.city"/><br/></t>-->
-                <!--        </t>-->
-                <!--    </div>-->
-                <!--    <div class="col-3">-->
-                <!--        <t t-if="doc.x_studio_lieferadresse_drucken and doc.partner_shipping_id">-->
-                <!--            <span style="font-family: Roboto; font-size: 10px;"><strong>Lieferadresse:</strong></span><br/>-->
-                <!--            <t t-if="doc.partner_shipping_id.name"><span t-field="doc.partner_shipping_id.name"/><br/></t>-->
-                <!--            <t t-if="not doc.partner_shipping_id.name"><span t-field="doc.partner_shipping_id.parent_id.name"/><br/></t>-->
-                <!--            <t t-if="doc.partner_shipping_id.x_studio_name2"><span t-field="doc.partner_shipping_id.x_studio_name2"/><br/></t>-->
-                <!--            <t t-if="not doc.partner_shipping_id.name and doc.partner_shipping_id.parent_id.x_studio_name2"><span t-field="doc.partner_shipping_id.parent_id.x_studio_name2"/><br/></t>-->
-                <!--            <t t-if="doc.partner_shipping_id.street"><span t-field="doc.partner_shipping_id.street"/><br/></t>-->
-                <!--            <t t-if="doc.partner_shipping_id.street2"><span t-field="doc.partner_shipping_id.street2"/><br/></t>-->
-                <!--            <t t-if="doc.partner_shipping_id.zip"><span t-field="doc.partner_shipping_id.zip"/></t>-->
-                <!--            <t t-if="doc.partner_shipping_id.state_id.name"><span t-field="doc.partner_shipping_id.state_id.name"/></t>-->
-                <!--            <t t-if="doc.partner_shipping_id.city"><span t-field="doc.partner_shipping_id.city"/><br/></t>-->
-                <!--        </t>-->
-                <!--    </div>-->
-                <!--</div>-->
-            </xpath>
-            <xpath expr="//div[@id='informations']" position="replace">
+                <div t-attf-style="{{ 'background-image: url(%s);' % layout_background_url if layout_background_url else '' }}"
+                    t-att-data-oe-model="o and o._name"
+                    t-att-data-oe-id="o and o.id"
+                    t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <h2 t-out="baur_layout_document_title"/>
+                    <t t-out="0"/>
+                </div>
                 <div class="row">
                     <div class="col">
                         <span t-field="doc.date_order" t-options="{'widget':'date'}"/>
@@ -126,7 +186,7 @@
             <xpath expr="//span[@t-field='doc.payment_term_id.note']" position="replace"/>
             <xpath expr="//div[@name='so_total_summary']//div[@id='total']" position="replace">
                 <div id="total" class="row" name="total">
-                    <div class="" style="width:49%;margin-left:17px;font-family: Roboto; font-size: 13.3333px;">
+                    <div class="" style="width:49%;margin-start:17px;font-family: Roboto; font-size: 13.3333px;">
                         <table class="table table-borderless table-sm" t-if="doc.payment_term_id">
                             <tr>
                                 <td class="pl-0">
@@ -137,16 +197,17 @@
                             </tr>
                         </table>
                     </div>
-                    <div style="width:47%">
-                        <table class="table table-sm">
-                            <!-- Tax totals -->
-                            <t t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
-                            <t t-call="account.document_tax_totals"/>
+                    <div style="width:51%">
+                        <table class="table table-sm table-borderless">
+                            <t t-call="sale.document_tax_totals">
+                                <t t-set="tax_totals" t-value="doc.tax_totals"/>
+                                <t t-set="currency" t-value="doc.currency_id"/>
+                            </t>
                         </table>
                     </div>
                 </div>
                 <div id="baur_konditionen" class="row" name="baur_konditionen">
-                    <div class="" style="width:49%;margin-left:17px;font-family: Roboto; font-size: 13.3333px;">
+                    <div class="" style="width:49%;margin-start:17px;font-family: Roboto; font-size: 13.3333px;">
                         <table class="table table-borderless table-sm" t-attf-style="margin-top: #{18 if doc.order_line and not doc.payment_term_id else 0}%" t-if="doc.validity_date or doc.preise_sonderfarben or doc.x_studio_preise_inkl_montage or doc.preise_exkl_montage">
                             <tr style="line-height:1.5em;" t-if="doc.validity_date and doc.state=='draft'">
                                 <td width="21%" class="p-0">
@@ -290,39 +351,85 @@
             </xpath>
             <xpath expr="//table[hasclass('o_main_table')]//thead/tr//th[@name='th_taxes']" position="replace"/>
             <xpath expr="//table[hasclass('o_main_table')]//thead/tr//th[@name='th_description']" position="before">
-                <t t-if="doc.x_show_art_no"><th name="th_art_no" class="text-left" width="10%"><span t-if="doc.x_show_art_no">Art-No.</span></th></t>
+                <t t-if="doc.x_show_art_no"><th name="th_art_no" class="text-start" width="10%"><span t-if="doc.x_show_art_no">Art-No.</span></th></t>
             </xpath>
             <xpath expr="//table[hasclass('o_main_table')]//thead/tr//th[@name='th_quantity']" position="before">
-                <th name="th_profilfarbe" class="text-left" width="15%"><span>Profilfarbe</span></th>
-                <th name="th_grosse" class="text-left" width="15%"><span>Grösse</span></th>
+                <th name="th_profilfarbe" class="text-start" width="15%"><span>Profilfarbe</span></th>
+                <th name="th_grosse" class="text-start" width="15%"><span>Grösse</span></th>
             </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_taxes']" position="replace"/>
-            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_priceunit']" position="attributes">
+            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_product_taxes']" position="replace"/>
+            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_product_priceunit']" position="attributes">
                 <attribute name="class">text-center</attribute>
             </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_quantity']" position="before">
-                <td name="td_profilfarbe" class="text-left"><span t-field="line.x_studio_farbe"/></td>
-                <td name="td_grosse" class="text-left"><span t-field="line.x_studio_groesse"/></td>
+            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_product_quantity']" position="before">
+                <td name="td_profilfarbe" class="text-start"><span t-field="line.x_studio_farbe"/></td>
+                <td name="td_grosse" class="text-start"><span t-field="line.x_studio_groesse"/></td>
             </xpath>
-            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_quantity']//span[@t-field='line.product_uom']" position="replace"/>
-            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_name']" position="replace">
+            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_product_quantity']//span[@t-if='line.product_uom_id != line.product_id.uom_id']" position="replace"/>
+            <xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_product_name']" position="replace">
                
                 <!--<t t-if="doc.x_show_art_no"><td name="td_art_no"><span t-if="line.product_id and line.order_id.x_show_art_no" t-field="line.product_id.default_code"/></td></t>-->
-                <!--<t t-if="line.product_id.default_code"><td name="td_name"><span t-if="line.product_id" t-esc="line.name.replace('['+line.product_id.default_code+']','')"/></td></t>-->
-                <!--<t t-if="not line.product_id.default_code"><td name="td_name"><span t-if="line.product_id" t-esc="line.name"/></td></t>-->
+                <!--<t t-if="line.product_id.default_code"><td name="td_product_name"><span t-if="line.product_id" t-esc="line.name.replace('['+line.product_id.default_code+']','')"/></td></t>-->
+                <!--<t t-if="not line.product_id.default_code"><td name="td_product_name"><span t-if="line.product_id" t-esc="line.name"/></td></t>-->
                 
                 <t t-if="doc.x_show_art_nr"><td name="td_art_no"><span t-if="line.product_id and line.order_id.x_show_art_nr" t-field="line.product_id.default_code"/></td></t>
-                <t t-if="line.product_id.default_code and line.product_id.product_template_variant_value_ids"><td name="td_name"><span t-if="line.product_id" t-esc="line.name.replace('['+line.product_id.default_code+']','').replace('('+line.product_id.product_template_variant_value_ids[0].name+')','')"/></td></t>
-                <t t-if="not line.product_id.default_code and line.product_id.product_template_variant_value_ids"><td name="td_name"><span t-if="line.product_id" t-esc="line.name.replace('('+line.product_id.product_template_variant_value_ids[0].name+')','')"/></td></t>
-                <t t-if="not line.product_id.default_code and not line.product_id.product_template_variant_value_ids"><td name="td_name"><span t-if="line.product_id" t-esc="line.name"/></td></t>
-                <t t-if="line.product_id.default_code and not line.product_id.product_template_variant_value_ids"><td name="td_name"><span t-if="line.product_id" t-esc="line.name.replace('['+line.product_id.default_code+']','')"/></td></t>
+                <t t-if="line.product_id.default_code and line.product_id.product_template_variant_value_ids"><td name="td_product_name"><span t-if="line.product_id" t-esc="line.name.replace('['+line.product_id.default_code+']','').replace('('+line.product_id.product_template_variant_value_ids[0].name+')','')"/></td></t>
+                <t t-if="not line.product_id.default_code and line.product_id.product_template_variant_value_ids"><td name="td_product_name"><span t-if="line.product_id" t-esc="line.name.replace('('+line.product_id.product_template_variant_value_ids[0].name+')','')"/></td></t>
+                <t t-if="not line.product_id.default_code and not line.product_id.product_template_variant_value_ids"><td name="td_product_name"><span t-if="line.product_id" t-esc="line.name"/></td></t>
+                <t t-if="line.product_id.default_code and not line.product_id.product_template_variant_value_ids"><td name="td_product_name"><span t-if="line.product_id" t-esc="line.name.replace('['+line.product_id.default_code+']','')"/></td></t>
             </xpath>
             <xpath expr="//table[hasclass('o_main_table')]//thead/tr//th[@name='th_description']" position="attributes">
                 <attribute name="width">42%</attribute>
             </xpath>
-            <!--<xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_name']" position="attributes">-->
+            <!--<xpath expr="//table[hasclass('o_main_table')]/tbody[@class='sale_tbody']//td[@name='td_product_name']" position="attributes">-->
             <!--    <attribute name="width">45%</attribute>-->
             <!--</xpath>-->
+
+            <!-- Section Subtotals -->
+            <xpath expr="//t[@t-foreach='lines_to_report']" position="before">
+                <t t-set="current_subtotal" t-value="0"/>
+            </xpath>
+            <xpath expr="//t[@t-foreach='lines_to_report']/t[@t-set='is_combo']" position="after">
+                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" />
+                <!-- <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" /> -->
+            </xpath>
+            <xpath expr="//td[@name='td_section_name']" position="after">
+                <t t-set="current_section" t-value="line"/>
+                <t t-set="current_subtotal" t-value="0"/>
+            </xpath>
+            <xpath expr="//tr[@name='tr_product']" position="after">
+                <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section')">
+                    <tr class="is-subtotal text-end">
+                        <td name="td_section_subtotal" colspan="99">
+                            <strong class="mr16">Subtotal</strong>
+                            <span t-esc="current_subtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id or line.currency_id}"/>
+                        </td>
+                    </tr>
+                </t>
+            </xpath>
+
+            <!-- Remove section subtotal -->
+            <xpath expr="//td[@name='td_section_price']/span[@name='price_subtotal_section']" position="replace"/>
+            <xpath expr="//td[@name='td_section_price']" position="after">
+                <td/>
+            </xpath>
+            <!-- Added Background color to section -->
+            <xpath expr="//tr[@name='tr_section']" position="attributes">
+                <attribute name="t-att-class">'fw-bolder o_line_section bg-200' if is_section else 'fw-bold o_line_subsection'</attribute>
+            </xpath>
+
+            <xpath expr="//tr[@name='tr_product']" position="attributes">
+                <attribute name="style">border-bottom: 1px solid #dee2e6</attribute>
+            </xpath>
+        </template>
+
+        <template id="document_tax_totals_template_inherit" inherit_id="account.document_tax_totals_template">
+            <xpath expr="//tr[hasclass('o_subtotal')]" position="attributes">
+                <attribute name="style">border-bottom: 1px solid #dee2e6; border-top: 1px solid #000000</attribute>
+            </xpath>
+            <xpath expr="//tr[hasclass('o_taxes')]" position="attributes">
+                <attribute name="style">border-bottom: 1px solid #000000; </attribute>
+            </xpath>
         </template>
     </data>
-</odoo>
+</odoo> 

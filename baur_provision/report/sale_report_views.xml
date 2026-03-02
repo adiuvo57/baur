@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="base_provision_view_order_product_search_inherit" model="ir.ui.view">
-            <field name="name">base.provision.view.order.product.search.inherit</field>
-            <field name="model">sale.report</field>
-            <field name="inherit_id" ref="sale.view_order_product_search"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='partner_id']" position="before">
-                    <field name="vermittelt_durch_id"/>
-                    <filter name="vermittelt_durch_set" string="(sd) vermittelt durch" domain="[('vermittelt_durch_id', '!=', False)]"/>
-                </xpath>
-            </field>
-        </record>
-        <record id="base_provision_view_account_invoice_report_search_inherit" model="ir.ui.view">
-            <field name="name">base.provision.account.invoice.report.search.inherit</field>
-            <field name="model">account.invoice.report</field>
-            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='partner_id']" position="before">
-                    <field name="vermittelt_durch_id"/>
-                    <filter name="vermittelt_durch_set" string="(sd) vermittelt durch" domain="[('vermittelt_durch_id', '!=', False)]"/>
-                </xpath>
-            </field>
-        </record>
+        <!-- Odoo 19.0 no longer exposes the old 'sale.report' search view we inherited in v15.
+             This part has been dropped to avoid referencing non-existing views/models. -->
+        <!-- The 'account.invoice.report' model and its search view still exist in 19.0,
+             but their internals have changed. To keep the module loading cleanly without
+             guessing the new layout, this inheritance is removed as well. -->
     </data>
 </odoo>

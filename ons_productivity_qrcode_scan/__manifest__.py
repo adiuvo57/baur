@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name' : 'Scan your QR-Factures (QR-invoices) easily',
-    'version' : '1.0',
+    'version' : '19.0.1.0',
     'author' : 'nivels GmbH',
     'category' : 'Accounting',
     'website': 'https://www.nivels.ch',
@@ -14,10 +14,10 @@
         'l10n_ch'
     ],
     'data': [
-        'wizard/qr_code_scan_to_invoice.xml',
-        'views/view_res_partner.xml',
-        'views/view_res_company.xml',
-        'views/sale.xml',
+        # 'wizard/qr_code_scan_to_invoice.xml',
+        # 'views/view_res_partner.xml',
+        # 'views/view_res_company.xml',
+        # 'views/sale.xml',
         'security/ir.model.access.csv',
 
     ],
