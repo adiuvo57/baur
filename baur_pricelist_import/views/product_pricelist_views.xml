@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="product_pricelist_view_form_import_button" model="ir.ui.view">
+        <field name="name">product.pricelist.form.import.xlsx</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <!-- Odoo 15 pricelist form has no &lt;header&gt;; insert one before &lt;sheet&gt; -->
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="%(baur_pricelist_import.action_pricelist_import_wizard)d"
+                            type="action"
+                            string="(sd) Import XLSX"
+                            class="btn-default"
+                            context="{'default_pricelist_id': id}"
+                            groups="product.group_product_pricelist"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+</odoo>
