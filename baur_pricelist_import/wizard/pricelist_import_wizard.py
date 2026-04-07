@@ -6,7 +6,7 @@ import logging
 from odoo import fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
-from .pricelist_import_helpers import detect_columns, safe_float, safe_str
+from .pricelist_import_helpers import detect_columns, parse_datetime, safe_float, safe_str
 
 _logger = logging.getLogger(__name__)
 
@@ -14,6 +14,20 @@ try:
     import pandas as pd
 except ImportError:  # pragma: no cover
     pd = None
+
+
+def _cell_nonempty(val):
+    if val is None:
+        return False
+    if pd is not None:
+        try:
+            if pd.isna(val):
+                return False
+        except TypeError:
+            pass
+    if isinstance(val, str) and not val.strip():
+        return False
+    return True
 
 
 class PricelistImportWizard(models.TransientModel):
@@ -55,7 +69,7 @@ class PricelistImportWizard(models.TransientModel):
             raise UserError(_('No pricelist selected.'))
         df = self._read_xlsx(self.xlsx_file)
         df.columns = [str(c).strip() for c in df.columns]
-        name_col, ref_col, qty_col, price_col = detect_columns(df)
+        name_col, ref_col, qty_col, price_col, date_start_col, date_end_col = detect_columns(df)
         if not ref_col:
             raise UserError(
                 _('Could not find a variant reference column. '
@@ -103,11 +117,38 @@ class PricelistImportWizard(models.TransientModel):
                     )
                     continue
 
+            raw_start = row.get(date_start_col) if date_start_col else None
+            raw_end = row.get(date_end_col) if date_end_col else None
+            start_dt = parse_datetime(raw_start, end_of_day=False) if date_start_col else None
+            end_dt = parse_datetime(raw_end, end_of_day=True) if date_end_col else None
+
+            if date_start_col and _cell_nonempty(raw_start) and start_dt is None:
+                errors.append(
+                    _('Row %(r)s: could not parse Start Date for %(ref)s') % {'r': idx + 2, 'ref': ref}
+                )
+                continue
+            if date_end_col and _cell_nonempty(raw_end) and end_dt is None:
+                errors.append(
+                    _('Row %(r)s: could not parse End Date for %(ref)s') % {'r': idx + 2, 'ref': ref}
+                )
+                continue
+
+            if start_dt and end_dt and start_dt >= end_dt:
+                errors.append(
+                    _('Row %(r)s: End Date must be after Start Date for %(ref)s') % {'r': idx + 2, 'ref': ref}
+                )
+                continue
+
+            ds = start_dt if start_dt else False
+            de = end_dt if end_dt else False
+
             domain = [
                 ('pricelist_id', '=', self.pricelist_id.id),
                 ('applied_on', '=', '0_product_variant'),
                 ('product_id', '=', variant.id),
                 ('min_quantity', '=', qty),
+                ('date_start', '=', ds),
+                ('date_end', '=', de),
             ]
             item = Item.search(domain, limit=1)
             vals = {
@@ -118,9 +159,15 @@ class PricelistImportWizard(models.TransientModel):
                 'min_quantity': qty,
                 'compute_price': 'fixed',
                 'fixed_price': price,
+                'date_start': ds,
+                'date_end': de,
             }
             if item:
-                item.write({'fixed_price': price})
+                item.write({
+                    'fixed_price': price,
+                    'date_start': ds,
+                    'date_end': de,
+                })
                 updated += 1
             else:
                 Item.create(vals)

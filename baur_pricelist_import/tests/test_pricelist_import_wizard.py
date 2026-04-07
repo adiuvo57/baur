@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import base64
 import io
+from datetime import datetime
 
 import pandas as pd
 
@@ -48,6 +49,8 @@ class TestPricelistImportWizard(TransactionCase):
             ('pricelist_id', '=', self.pl.id),
             ('product_id', '=', self.variant.id),
             ('min_quantity', '=', 1.0),
+            ('date_start', '=', False),
+            ('date_end', '=', False),
         ])
         self.assertEqual(len(rule), 1)
         self.assertEqual(rule.applied_on, '0_product_variant')
@@ -80,6 +83,8 @@ class TestPricelistImportWizard(TransactionCase):
             ('pricelist_id', '=', self.pl.id),
             ('product_id', '=', self.variant.id),
             ('min_quantity', '=', 5.0),
+            ('date_start', '=', False),
+            ('date_end', '=', False),
         ])
         self.assertEqual(len(rule), 1)
         self.assertAlmostEqual(rule.fixed_price, 77.0, places=2)
@@ -110,3 +115,27 @@ class TestPricelistImportWizard(TransactionCase):
         from odoo.exceptions import UserError
         with self.assertRaises(UserError):
             wiz.action_import()
+
+    def test_import_sets_validity_dates(self):
+        wiz = self.env['pricelist.import.wizard'].create({
+            'pricelist_id': self.pl.id,
+            'xlsx_file': self._xlsx_b64([
+                {
+                    'Product Name': 'PL Import Test Product',
+                    'Variant Internal Reference': 'PLIMP-UNIT-01',
+                    'Qty': 1,
+                    'Price': 11.0,
+                    'Start Date': datetime(2030, 1, 1),
+                    'End Date': datetime(2030, 12, 31),
+                },
+            ]),
+        })
+        wiz.action_import()
+        rule = self.env['product.pricelist.item'].search([
+            ('pricelist_id', '=', self.pl.id),
+            ('product_id', '=', self.variant.id),
+            ('min_quantity', '=', 1.0),
+            ('date_start', '!=', False),
+        ])
+        self.assertEqual(len(rule), 1)
+        self.assertTrue(rule.date_end)

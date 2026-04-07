@@ -16,7 +16,8 @@
                         <strong>Product Name</strong> (optional; if set, must match the product in Odoo),
                         <strong>Variant Internal Reference</strong> (or Internal Reference / default_code),
                         <strong>Qty</strong> (minimum quantity for the rule),
-                        <strong>Price</strong> (fixed price).
+                        <strong>Price</strong> (fixed price),
+                        optional <strong>Start Date</strong> / <strong>End Date</strong> (validity; date-only end dates use end of day).
                     </p>
                     <p>
                         <a href="/baur_pricelist_import/static/sample/pricelist_import_sample.xlsx" download="pricelist_import_sample.xlsx">Download sample XLSX</a>

@@ -3,14 +3,15 @@
 
 {
     'name': '(sd) Pricelist XLSX Import',
-    'summary': 'Import pricelist rules from XLSX (product name, variant reference, qty, fixed price)',
+    'summary': 'Import pricelist rules from XLSX (product, variant, qty, price, start/end dates)',
     'description': """Bulk import fixed-price pricelist lines from Excel: optional product name check,
-    variant internal reference, minimum quantity, and price. Includes sample XLSX.
+    variant internal reference, minimum quantity, price, and optional Start Date / End Date validity.
+    Includes sample XLSX.
     """,
     "author": "Soludoo",
     "website": "https://www.soludoo.ch",
     'category': 'Extra Tools',
-    'version': '15.0.1.0.0',
+    'version': '15.0.1.0.1',
     'license': 'OPL-1',
     'depends': ['product'],
     'external_dependencies': {
