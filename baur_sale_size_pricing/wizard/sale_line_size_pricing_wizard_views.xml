@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_line_size_pricing_wizard_form_view" model="ir.ui.view">
+        <field name="name">sale.line.size.pricing.wizard.form</field>
+        <field name="model">sale.line.size.pricing.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Size Priced Line">
+                <group>
+                    <field name="sale_order_line_id"/>
+                    <field name="size_text"/>
+                    <field name="square_meter"/>
+                    <field name="product_id"/>
+                </group>
+                <footer>
+                    <button name="action_add_line" string="Add Line" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

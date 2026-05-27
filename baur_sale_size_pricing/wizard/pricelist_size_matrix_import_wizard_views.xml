@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pricelist_size_matrix_import_wizard_form_view" model="ir.ui.view">
+        <field name="name">pricelist.size.matrix.import.wizard.form</field>
+        <field name="model">pricelist.size.matrix.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Size Matrix">
+                <group>
+                    <field name="pricelist_id"/>
+                    <field name="xlsx_filename" invisible="1"/>
+                    <field name="xlsx_file" filename="xlsx_filename" string="Upload XLSX File"/>
+                </group>
+                <div class="alert alert-info" role="alert">
+                    <p>
+                        Expected format: first column is <strong>Size</strong> (examples: <strong>&lt; 1 m2</strong>,
+                        <strong>&gt; 1 - 1.5 m2</strong>), and each other column header is a product internal
+                        reference or exact product name.
+                    </p>
+                </div>
+                <footer>
+                    <button string="Import" name="action_import" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pricelist_size_matrix_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Size Matrix</field>
+        <field name="res_model">pricelist.size.matrix.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="pricelist_size_matrix_import_wizard_form_view"/>
+        <field name="target">new</field>
+        <field name="context">{'default_pricelist_id': active_id}</field>
+    </record>
+</odoo>

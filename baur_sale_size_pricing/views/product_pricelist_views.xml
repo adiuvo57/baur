@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_pricelist_view_form_size_matrix_button" model="ir.ui.view">
+        <field name="name">product.pricelist.form.size.matrix.button</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(baur_sale_size_pricing.action_pricelist_size_matrix_import_wizard)d"
+                        type="action"
+                        string="(sd) Import Size Matrix"
+                        class="btn-default"
+                        context="{'default_pricelist_id': id}"
+                        groups="product.group_product_pricelist"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
