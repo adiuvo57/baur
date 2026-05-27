@@ -11,11 +11,19 @@
                         <field name="sale_order_line_id" invisible="1"/>
                         <field name="order_id" invisible="1"/>
                         <field name="square_meter"/>
+                        <field name="price_unit"/>
+                        <field name="description" placeholder="Additional description..."/>
                     </group>
                     <group>
                         <field name="size_text"/>
-                        <field name="description" placeholder="Additional description..."/>
                     </group>
+                </group>
+                <group>
+                    <field name="size_reference_image"
+                               widget="image"
+                               nolabel="1"
+                               readonly="1"
+                               options="{'size': [700, 300], 'preview_image': 'size_reference_image'}"/>
                 </group>
                 <footer>
                     <button name="action_add_line" string="Add Line" type="object" class="oe_highlight"/>

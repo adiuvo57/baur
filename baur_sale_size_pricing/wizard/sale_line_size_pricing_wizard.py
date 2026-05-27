@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import base64
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.modules.module import get_module_resource
 
 
 class SaleLineSizePricingWizard(models.TransientModel):
@@ -18,7 +21,19 @@ class SaleLineSizePricingWizard(models.TransientModel):
         required=True,
         domain="[('product_tmpl_id.show_in_size_pricing_popup', '=', True)]",
     )
+    price_unit = fields.Float(string='Unit Price', digits='Product Price')
     description = fields.Text(string='Description')
+    size_reference_image = fields.Image(string='Reference Matrix', default=lambda self: self._default_size_reference_image())
+
+    @api.model
+    def _default_size_reference_image(self):
+        image_path = get_module_resource(
+            'baur_sale_size_pricing', 'static/src/img', 'size_matrix_reference.png'
+        )
+        if not image_path:
+            return False
+        with open(image_path, 'rb') as image_file:
+            return base64.b64encode(image_file.read())
 
     @api.model
     def default_get(self, fields_list):
@@ -40,7 +55,23 @@ class SaleLineSizePricingWizard(models.TransientModel):
                 line = self.env['sale.order.line'].browse(line_id)
                 vals.setdefault('size_text', line._get_size_pricing_text())
                 vals.setdefault('square_meter', line._get_size_square_meter())
-        return super().create(vals_list)
+        records = super().create(vals_list)
+        for wizard in records.filtered(lambda w: w.product_id and not w.price_unit):
+            try:
+                wizard.price_unit = wizard._get_pricelist_price()
+            except UserError:
+                wizard.price_unit = 0.0
+        return records
+
+    @api.onchange('product_id', 'square_meter')
+    def _onchange_price_from_pricelist(self):
+        for wizard in self:
+            if not wizard.product_id or wizard.square_meter <= 0:
+                continue
+            try:
+                wizard.price_unit = wizard._get_pricelist_price()
+            except UserError:
+                wizard.price_unit = 0.0
 
     def _get_pricelist_price(self):
         self.ensure_one()
@@ -103,6 +134,8 @@ class SaleLineSizePricingWizard(models.TransientModel):
             raise UserError(_('Please select a product.'))
         if self.square_meter <= 0:
             raise UserError(_('Square meter must be greater than zero.'))
+        if self.price_unit <= 0:
+            raise UserError(_('Unit price must be greater than zero.'))
 
         following_lines = self.env['sale.order.line'].search(
             [
@@ -114,8 +147,7 @@ class SaleLineSizePricingWizard(models.TransientModel):
         for line in following_lines:
             line.sequence2 += 1
 
-        price = self._get_pricelist_price()
-        self.env['sale.order.line'].create(self._prepare_new_line_vals(price))
+        self.env['sale.order.line'].create(self._prepare_new_line_vals(self.price_unit))
         if hasattr(self.order_id, '_reset_sequence'):
             self.order_id._reset_sequence()
         return {'type': 'ir.actions.act_window_close'}
