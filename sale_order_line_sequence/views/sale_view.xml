@@ -5,19 +5,25 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
-            <!-- keep max_line_sequence field available (even if not used directly in 19.0 UI) -->
             <field name="order_line" position="before">
                 <field name="max_line_sequence" invisible="1" />
             </field>
-            <!-- Odoo 19.0 uses a list view for order_line; inject our sequence2 / section fields there. -->
-            <xpath expr="//field[@name='order_line']/list" position="inside">
-                <!-- Button to open the 'Add Section' wizard -->
+           <!--  <field name="order_line" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_sequence': max_line_sequence}</attribute>
+            </field> -->
+            <xpath
+                expr="//field[@name='order_line']/tree/field[@name='sequence']"
+                position="before"
+            >
                 <button name="action_add_section" string="" icon="fa-level-down" type="object"/>
             </xpath>
-            <xpath expr="//field[@name='order_line']/list/field[@name='product_template_id']" position="after">
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
                 <field name="order_id" invisible="1"/>
                 <field name="section_id" optional="hide" domain="[('display_type', '=', 'line_section'), ('order_id', '=', order_id)]" />
-                <field name="sequence2" optional="hide" invisible="display_type in ('line_section','line_note')" string="Sequence"/>
+                <field name="sequence2" optional="hide" attrs="{'invisible':[('display_type','in',('line_section','line_note'))]}" string="Seqence"/>
+                
             </xpath>
         </field>
     </record>
@@ -30,15 +36,9 @@
                 <group>
                     <group>
                         <field name="display_type" widget="radio" options="{'horizontal': true}"/>
-                        <field name="product_id"
-                               modifiers="{'invisible': [['display_type', 'in', ['section', 'note']]],
-                                           'required': [['display_type', '=', 'product']]}"/>
-                        <field name="section"
-                               modifiers="{'invisible': [['display_type', 'in', ['product', 'note']]],
-                                           'required': [['display_type', '=', 'section']]}"/>
-                        <field name="note"
-                               modifiers="{'invisible': [['display_type', 'in', ['section', 'product']]],
-                                           'required': [['display_type', '=', 'note']]}"/>
+                        <field name="product_id" attrs="{'invisible':[('display_type','in',('section','note'))], 'required':[('display_type','=','product')]}" />
+                        <field name="section" attrs="{'invisible':[('display_type','in',('product','note'))],'required':[('display_type','=','section')]}" />
+                        <field name="note" attrs="{'invisible':[('display_type','in',('section','product'))],'required':[('display_type','=','note')]}"/>
                     </group>
 
                     <group>

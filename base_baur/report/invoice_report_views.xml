@@ -80,7 +80,7 @@
                 </div>
             </xpath>
             <xpath expr="//span[@t-field='o.invoice_payment_term_id.note']" position="replace"/>
-            <xpath expr="//div[@id='total']" position="replace">
+            <xpath expr="//div[@class='clearfix']//div[@id='total']" position="replace">
                 <div id="total" class="row" name="total">
                     <div class="" style="width:49%;margin-left:17px;font-family: Roboto; font-size: 13.3333px;">
                         <table class="table table-borderless table-sm" t-attf-style="margin-top: #{15 if o.invoice_line_ids else 0}%">
@@ -121,10 +121,7 @@
                     <div style="width:47%">
                         <table class="table table-sm" style="page-break-inside: avoid;">
                             <!--Tax totals-->
-                            <t t-if="o.tax_totals" t-call="account.document_tax_totals">
-                                <t t-set="tax_totals" t-value="o.tax_totals"/>
-                                <t t-set="currency" t-value="o.currency_id"/>
-                            </t>
+                            <t t-set="tax_totals" t-value="json.loads(o.tax_totals_json)"/>
                             <t t-call="account.document_tax_totals"/>
 
                             <!--Payments-->

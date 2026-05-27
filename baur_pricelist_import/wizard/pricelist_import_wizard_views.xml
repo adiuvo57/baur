@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="pricelist_import_wizard_form_view" model="ir.ui.view">
+        <field name="name">pricelist.import.wizard.form</field>
+        <field name="model">pricelist.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Pricelist">
+                <group>
+                    <field name="pricelist_id"/>
+                    <field name="xlsx_filename" invisible="1"/>
+                    <field name="xlsx_file" filename="xlsx_filename" colspan="2" string="(sd) Upload XLSX File"/>
+                </group>
+                <div class="alert alert-info" role="alert">
+                    <p>
+                        Expected columns (in order in the sample file):
+                        <strong>Product Name</strong> (optional; if set, must match the product in Odoo),
+                        <strong>Variant Internal Reference</strong> (or Internal Reference / default_code),
+                        <strong>Qty</strong> (minimum quantity for the rule),
+                        <strong>Price</strong> (fixed price),
+                        optional <strong>Start Date</strong> / <strong>End Date</strong> (validity; date-only end dates use end of day).
+                    </p>
+                    <p>
+                        <a href="/baur_pricelist_import/static/sample/pricelist_import_sample.xlsx" download="pricelist_import_sample.xlsx">Download sample XLSX</a>
+                    </p>
+                </div>
+                <footer>
+                    <button string="Import" name="action_import" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_pricelist_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Pricelist</field>
+        <field name="res_model">pricelist.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="pricelist_import_wizard_form_view"/>
+        <field name="target">new</field>
+        <field name="context">{'default_pricelist_id': active_id}</field>
+    </record>
+</odoo>

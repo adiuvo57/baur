@@ -2,14 +2,14 @@
 # Copyright 2017 Serpent Consulting Services Pvt. Ltd.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import SUPERUSER_ID, api
+from odoo import SUPERUSER_ID
+from odoo.api import Environment
 
 
-def post_init_hook(env: api.Environment):
-    """Recompute sale order line sequences after module installation.
-
-    Since Odoo 16.0+, post-init hooks receive an Environment instead of
-    ``cr, pool``. This version is adapted for Odoo 19.0.
+def post_init_hook(cr, pool):
     """
-    sale_orders = env["sale.order"].with_user(SUPERUSER_ID).search([])
-    sale_orders._reset_sequence()
+    Fetches all the sale order and resets the sequence of the order lines
+    """
+    env = Environment(cr, SUPERUSER_ID, {})
+    sale = env["sale.order"].search([])
+    sale._reset_sequence()

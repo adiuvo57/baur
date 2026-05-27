@@ -2,8 +2,7 @@
 # Powered by Mindphin Technologies.
 {
     'name': '(sd) Baur Provision',
-    # Bumped for Odoo 19.0 while keeping the same functional behavior as 15.0
-    'version': '19.0.1.0.0',
+    'version': '1.0',
     "summary": '',
     'description': """ """,
     "category": "Sales",
