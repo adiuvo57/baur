@@ -111,6 +111,32 @@ class TestSaleSizePricing(TransactionCase):
             self.second_product.id,
         ])
 
+    def test_wizard_uses_edited_square_meter_and_description(self):
+        self.env['product.pricelist.item'].create({
+            'pricelist_id': self.pricelist.id,
+            'applied_on': '0_product_variant',
+            'product_id': self.addon_product.id,
+            'product_tmpl_id': self.addon_product.product_tmpl_id.id,
+            'min_quantity': 2.0,
+            'compute_price': 'fixed',
+            'fixed_price': 99.0,
+        })
+
+        wizard = self.env['sale.line.size.pricing.wizard'].create({
+            'sale_order_line_id': self.source_line.id,
+            'product_id': self.addon_product.id,
+            'square_meter': 2.0,
+            'description': 'Custom mesh note',
+        })
+        wizard.action_add_line()
+
+        new_line = self.env['sale.order.line'].search([
+            ('order_id', '=', self.order.id),
+            ('product_id', '=', self.addon_product.id),
+        ], limit=1)
+        self.assertAlmostEqual(new_line.price_unit, 99.0, places=2)
+        self.assertIn('Custom mesh note', new_line.name)
+
     def test_size_matrix_import_creates_pricelist_items(self):
         wizard = self.env['pricelist.size.matrix.import.wizard'].create({
             'pricelist_id': self.pricelist.id,

@@ -11,7 +11,7 @@ after the current one. Includes a pricelist size-matrix XLSX import wizard.
     'author': 'Soludoo',
     'website': 'https://www.soludoo.ch',
     'category': 'Sales',
-    'version': '15.0.1.0.0',
+    'version': '15.0.1.0.1',
     'license': 'OPL-1',
     'depends': [
         'base_baur',

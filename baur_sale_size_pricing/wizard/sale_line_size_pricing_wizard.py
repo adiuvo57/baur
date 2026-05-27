@@ -10,21 +10,37 @@ class SaleLineSizePricingWizard(models.TransientModel):
 
     sale_order_line_id = fields.Many2one('sale.order.line', string='Source Line', required=True, readonly=True)
     order_id = fields.Many2one(related='sale_order_line_id.order_id', string='Order', readonly=True)
-    size_text = fields.Char(string='Size', compute='_compute_size_details', readonly=True)
-    square_meter = fields.Float(string='Square Meter', digits=(16, 4), compute='_compute_size_details', readonly=True)
+    size_text = fields.Char(string='Size', readonly=True)
+    square_meter = fields.Float(string='Square Meter', digits=(16, 4))
     product_id = fields.Many2one(
         'product.product',
         string='Product',
         required=True,
         domain="[('product_tmpl_id.show_in_size_pricing_popup', '=', True)]",
     )
+    description = fields.Text(string='Description')
 
-    @api.depends('sale_order_line_id')
-    def _compute_size_details(self):
-        for wizard in self:
-            line = wizard.sale_order_line_id
-            wizard.size_text = line._get_size_pricing_text() if line else False
-            wizard.square_meter = line._get_size_square_meter() if line else 0.0
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        line_id = self.env.context.get('default_sale_order_line_id')
+        if line_id:
+            line = self.env['sale.order.line'].browse(line_id)
+            if 'size_text' in fields_list:
+                res['size_text'] = line._get_size_pricing_text()
+            if 'square_meter' in fields_list:
+                res['square_meter'] = line._get_size_square_meter()
+        return res
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            line_id = vals.get('sale_order_line_id')
+            if line_id:
+                line = self.env['sale.order.line'].browse(line_id)
+                vals.setdefault('size_text', line._get_size_pricing_text())
+                vals.setdefault('square_meter', line._get_size_square_meter())
+        return super().create(vals_list)
 
     def _get_pricelist_price(self):
         self.ensure_one()
@@ -32,7 +48,7 @@ class SaleLineSizePricingWizard(models.TransientModel):
         if not order.pricelist_id:
             raise UserError(_('Please set a pricelist on the sale order first.'))
         if self.square_meter <= 0:
-            raise UserError(_('Could not calculate square meters from the line size.'))
+            raise UserError(_('Square meter must be greater than zero.'))
 
         price_rule = order.pricelist_id._compute_price_rule(
             [(self.product_id, self.square_meter, order.partner_id)],
@@ -61,10 +77,14 @@ class SaleLineSizePricingWizard(models.TransientModel):
         if order.fiscal_position_id:
             taxes = order.fiscal_position_id.map_tax(taxes)
 
+        name = product.get_product_multiline_description_sale() or product.display_name
+        if self.description and self.description.strip():
+            name = '%s\n%s' % (name, self.description.strip())
+
         values = {
             'order_id': order.id,
             'product_id': product.id,
-            'name': product.get_product_multiline_description_sale() or product.display_name,
+            'name': name,
             'product_uom': product.uom_id.id,
             'product_uom_qty': 1.0,
             'price_unit': price,
@@ -79,6 +99,10 @@ class SaleLineSizePricingWizard(models.TransientModel):
         self.ensure_one()
         if not self.sale_order_line_id or not self.order_id:
             raise UserError(_('Please open this wizard from a sale order line.'))
+        if not self.product_id:
+            raise UserError(_('Please select a product.'))
+        if self.square_meter <= 0:
+            raise UserError(_('Square meter must be greater than zero.'))
 
         following_lines = self.env['sale.order.line'].search(
             [
