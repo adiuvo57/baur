@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="invoice_line_size_pricing_wizard_form_view" model="ir.ui.view">
+        <field name="name">invoice.line.size.pricing.wizard.form</field>
+        <field name="model">invoice.line.size.pricing.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Size Priced Invoice Line">
+                <group>
+                    <group>
+                        <field name="product_id" widget="selection"/>
+                        <field name="account_move_line_id" invisible="1"/>
+                        <field name="move_id" invisible="1"/>
+                        <field name="square_meter"/>
+                        <field name="price_unit"/>
+                        <field name="description" placeholder="Additional description..."/>
+                    </group>
+                    <group>
+                        <field name="size_text"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="size_reference_image"
+                               widget="image"
+                               nolabel="1"
+                               readonly="1"
+                               options="{'size': [700, 300], 'preview_image': 'size_reference_image'}"/>
+                </group>
+                <footer>
+                    <button name="action_add_line" string="Add Line" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

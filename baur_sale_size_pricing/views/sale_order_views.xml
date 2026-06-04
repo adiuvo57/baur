@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_view_form_size_pricing" model="ir.ui.view">
+        <field name="name">sale.order.form.size.pricing</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                <button name="action_open_size_pricing_wizard"
+                        type="object"
+                        icon="fa-plus-square"
+                        string=""
+                        attrs="{'invisible': [('display_type', '!=', False)]}"
+                        title="Add size priced line"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
