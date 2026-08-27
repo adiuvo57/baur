@@ -11,7 +11,7 @@ after the current one. Includes a pricelist size-matrix XLSX import wizard.
     'author': 'Soludoo',
     'website': 'https://www.soludoo.ch',
     'category': 'Sales',
-    'version': '15.0.1.0.3',
+    'version': '15.0.1.0.4',
     'license': 'OPL-1',
     'depends': [
         'base_baur',
@@ -31,6 +31,7 @@ after the current one. Includes a pricelist size-matrix XLSX import wizard.
         'wizard/pricelist_size_matrix_import_wizard_views.xml',
         'views/product_pricelist_views.xml',
     ],
+    'pre_init_hook': 'pre_init_hook',
     'installable': True,
     'auto_install': False,
     'application': False,
