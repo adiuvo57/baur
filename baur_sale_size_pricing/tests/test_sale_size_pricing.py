@@ -137,6 +137,33 @@ class TestSaleSizePricing(TransactionCase):
         self.assertAlmostEqual(new_line.price_unit, 99.0, places=2)
         self.assertIn('Custom mesh note', new_line.name)
 
+    def test_sale_line_wizard_applies_discount_on_line(self):
+        self.env['product.pricelist.item'].create({
+            'pricelist_id': self.pricelist.id,
+            'applied_on': '0_product_variant',
+            'product_id': self.addon_product.id,
+            'product_tmpl_id': self.addon_product.product_tmpl_id.id,
+            'min_quantity': 0.55,
+            'compute_price': 'fixed',
+            'fixed_price': 200.0,
+        })
+
+        wizard = self.env['sale.line.size.pricing.wizard'].create({
+            'sale_order_line_id': self.source_line.id,
+            'product_id': self.addon_product.id,
+            'discount': 10.0,
+        })
+        self.assertAlmostEqual(wizard.price_final, 180.0, places=2)
+        wizard.action_add_line()
+
+        new_line = self.env['sale.order.line'].search([
+            ('order_id', '=', self.order.id),
+            ('product_id', '=', self.addon_product.id),
+        ], limit=1)
+        self.assertAlmostEqual(new_line.price_unit, 200.0, places=2)
+        self.assertAlmostEqual(new_line.discount, 10.0, places=2)
+        self.assertAlmostEqual(new_line.price_subtotal, 180.0, places=2)
+
     def test_size_matrix_import_creates_pricelist_items(self):
         wizard = self.env['pricelist.size.matrix.import.wizard'].create({
             'pricelist_id': self.pricelist.id,

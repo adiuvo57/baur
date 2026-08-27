@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="sale_line_size_pricing_wizard_form_view" model="ir.ui.view">
-        <field name="name">sale.line.size.pricing.wizard.form</field>
-        <field name="model">sale.line.size.pricing.wizard</field>
+    <record id="invoice_line_size_pricing_wizard_form_view" model="ir.ui.view">
+        <field name="name">invoice.line.size.pricing.wizard.form</field>
+        <field name="model">invoice.line.size.pricing.wizard</field>
         <field name="arch" type="xml">
-            <form string="Add Size Priced Line">
+            <form string="Add Size Priced Invoice Line">
                 <group>
                     <group>
                         <field name="product_id" widget="selection"/>
-                        <field name="sale_order_line_id" invisible="1"/>
-                        <field name="order_id" invisible="1"/>
+                        <field name="account_move_line_id" invisible="1"/>
+                        <field name="move_id" invisible="1"/>
                         <field name="square_meter"/>
                         <field name="price_unit"/>
                         <field name="discount"/>
