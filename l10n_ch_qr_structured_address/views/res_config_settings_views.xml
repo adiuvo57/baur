@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.l10n.ch.qr.structured.address</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="l10n_ch.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='l10n_ch-isr_print_scanline_offset']" position="after">
+                <div class="col-12 col-lg-6 o_setting_box" id="l10n_ch_qr_structured_address"
+                     attrs="{'invisible': [('country_code', 'not in', ('CH', 'LI'))]}">
+                    <div class="o_setting_left_pane">
+                        <field name="l10n_ch_qr_require_building_number"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="l10n_ch_qr_require_building_number" string="QR-bill: require building number"/>
+                        <div class="text-muted">
+                            Block QR-bills whose creditor or debtor street has no building number
+                            (structured address type "S", SIX IG 2.3).
+                        </div>
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <div class="col-12">
+                                    <field name="l10n_ch_qr_check_on_post" class="oe_inline"/>
+                                    <label for="l10n_ch_qr_check_on_post" string="Validate addresses when posting customer invoices"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

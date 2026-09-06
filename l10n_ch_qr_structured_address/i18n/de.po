@@ -1,0 +1,138 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ch_qr_structured_address
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Soludoo\n"
+"Language-Team: German (Switzerland)\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/account_move.py:0
+#, python-format
+msgid "%(move)s: %(error)s"
+msgstr "%(move)s: %(error)s"
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "%(partner)s (%(role)s)"
+msgstr "%(partner)s (%(role)s)"
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "%s: the city is missing."
+msgstr "%s: Der Ort fehlt."
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "%s: the country is missing."
+msgstr "%s: Das Land fehlt."
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "%s: the postal code is missing."
+msgstr "%s: Die Postleitzahl fehlt."
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "%s: the street is missing."
+msgstr "%s: Die Strasse fehlt."
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid ""
+"%(label)s: the street '%(street)s' has no building number. Enter street and "
+"number together in the Street field (e.g. 'Bahnhofstrasse 12'), or put the "
+"number alone in the Street 2 field."
+msgstr ""
+"%(label)s: Die Strasse «%(street)s» hat keine Hausnummer. Erfassen Sie "
+"Strasse und Hausnummer zusammen im Feld Strasse (z.B. «Bahnhofstrasse 12») "
+"oder die Hausnummer allein im Feld Strasse 2."
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "No %s partner is set."
+msgstr "Kein %s-Partner gesetzt."
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "The Swiss QR-bill requires a complete structured address:"
+msgstr "Die QR-Rechnung verlangt eine vollständige strukturierte Adresse (Typ S):"
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "creditor"
+msgstr "Zahlungsempfänger"
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
+msgid "debtor"
+msgstr "Zahlungspflichtiger"
+
+#. module: l10n_ch_qr_structured_address
+#: model:ir.model.fields,field_description:l10n_ch_qr_structured_address.field_res_company__l10n_ch_qr_require_building_number
+#: model:ir.model.fields,field_description:l10n_ch_qr_structured_address.field_res_config_settings__l10n_ch_qr_require_building_number
+msgid "Swiss QR-bill: require building number"
+msgstr "QR-Rechnung: Hausnummer verlangen"
+
+#. module: l10n_ch_qr_structured_address
+#: model:ir.model.fields,field_description:l10n_ch_qr_structured_address.field_res_company__l10n_ch_qr_check_on_post
+#: model:ir.model.fields,field_description:l10n_ch_qr_structured_address.field_res_config_settings__l10n_ch_qr_check_on_post
+msgid "Swiss QR-bill: validate addresses when posting"
+msgstr "QR-Rechnung: Adressen beim Buchen prüfen"
+
+#. module: l10n_ch_qr_structured_address
+#: model_terms:ir.ui.view,arch_db:l10n_ch_qr_structured_address.res_config_settings_view_form
+msgid "QR-bill: require building number"
+msgstr "QR-Rechnung: Hausnummer verlangen"
+
+#. module: l10n_ch_qr_structured_address
+#: model_terms:ir.ui.view,arch_db:l10n_ch_qr_structured_address.res_config_settings_view_form
+msgid "Validate addresses when posting customer invoices"
+msgstr "Adressen beim Buchen von Kundenrechnungen prüfen"
+
+#. module: l10n_ch_qr_structured_address
+#: model_terms:ir.ui.view,arch_db:l10n_ch_qr_structured_address.res_config_settings_view_form
+msgid ""
+"Block QR-bills whose creditor or debtor street has no building number\n"
+"                            (structured address type \"S\", SIX IG 2.3)."
+msgstr ""
+"QR-Rechnungen blockieren, wenn die Strasse des Zahlungsempfängers oder des "
+"Zahlungspflichtigen keine Hausnummer hat (strukturierte Adresse Typ «S», SIX IG 2.3)."
+
+#. module: l10n_ch_qr_structured_address
+#: model:ir.model.fields,help:l10n_ch_qr_structured_address.field_res_company__l10n_ch_qr_require_building_number
+#: model:ir.model.fields,help:l10n_ch_qr_structured_address.field_res_config_settings__l10n_ch_qr_require_building_number
+msgid ""
+"When enabled, a customer invoice cannot be posted, printed or sent as a Swiss QR-bill if the creditor or the debtor street has no building number (e.g. 'Industriestrasse' instead of 'Industriestrasse 12').\n"
+"SIX treats street and building number as optional elements of a structured address; this stricter check enforces complete master data."
+msgstr ""
+"Wenn aktiv, kann eine Kundenrechnung nicht als QR-Rechnung gebucht, gedruckt oder versendet werden, wenn die Strasse des Zahlungsempfängers oder des Zahlungspflichtigen keine Hausnummer hat (z.B. «Industriestrasse» statt «Industriestrasse 12»).\n"
+"Gemäss SIX sind Strasse und Hausnummer in der strukturierten Adresse optional; diese strengere Prüfung erzwingt vollständige Stammdaten."
+
+#. module: l10n_ch_qr_structured_address
+#: model:ir.model.fields,help:l10n_ch_qr_structured_address.field_res_company__l10n_ch_qr_check_on_post
+#: model:ir.model.fields,help:l10n_ch_qr_structured_address.field_res_config_settings__l10n_ch_qr_check_on_post
+msgid ""
+"When enabled, posting a customer invoice or credit note whose bank account is eligible for a Swiss QR-bill validates the creditor and debtor addresses and blocks the posting with an explicit error if they cannot be structured.\n"
+"Disable only as a temporary mitigation during data clean-up; printing and sending still validate."
+msgstr ""
+"Wenn aktiv, werden beim Buchen einer Kundenrechnung oder Gutschrift mit QR-fähigem Bankkonto die Adressen von Zahlungsempfänger und Zahlungspflichtigem geprüft; die Buchung wird mit einer klaren Fehlermeldung blockiert, wenn die Adresse nicht strukturiert werden kann.\n"
+"Nur vorübergehend während der Datenbereinigung deaktivieren; Drucken und Versenden prüfen weiterhin."
