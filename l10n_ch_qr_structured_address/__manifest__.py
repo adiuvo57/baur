@@ -38,3 +38,4 @@ and the debtor.  This module
     'auto_install': False,
     'application': False,
 }
+
