@@ -2,7 +2,7 @@
 # Powered by Mindphin Technologies.
 {
     'name': '(sd) Swiss QR-bill – Structured Addresses (Type S)',
-    'version': '15.0.1.0.0',
+    'version': '15.0.1.0.1',
     'summary': 'Emit SIX IG 2.3 structured addresses (type S) in Swiss QR-bills and '
                'block invoices whose addresses cannot be structured',
     'description': """
@@ -38,4 +38,3 @@ and the debtor.  This module
     'auto_install': False,
     'application': False,
 }
-

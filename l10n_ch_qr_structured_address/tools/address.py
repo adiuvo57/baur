@@ -66,8 +66,11 @@ ADDRESS_REGEX = re.compile(r'^(.*?)(\s[0-9][0-9\S]*(?:\s[A-Za-z])?)?(?: - (.+))?
 # A second address line that is nothing but a building number: "12", "12a", "20 A"
 _BARE_NUMBER = re.compile(r'^[0-9][0-9\S]*(?:\s[A-Za-z])?$')
 
-# "CH-3628", "LI-9490" → "3628", "9490"
-_POSTAL_PREFIX = re.compile(r'^(?:CH|LI|FL)\s*-\s*', flags=re.IGNORECASE)
+# "CH-3628", "CH 3628", "CH3628", "LI-9490", "FL-9490" → "3628", "3628", "3628", "9490", "9490"
+_POSTAL_PREFIX = re.compile(r'^(?:CH|LI|FL)[\s\-]*(?=\d)', flags=re.IGNORECASE)
+
+# Swiss / Liechtenstein postal codes are exactly four digits
+SWISS_POSTAL_CODE = re.compile(r'^\d{4}$')
 
 
 def sanitize_text(value):
@@ -109,8 +112,14 @@ def street_split(street):
 
 
 def clean_postal_code(value):
-    """Postal code without country prefix, as required by SIX."""
-    return _POSTAL_PREFIX.sub('', sanitize_text(value))
+    """Postal code without country prefix, as required by SIX (IG 2.3: "The postal
+    code must be provided without a country")."""
+    return _POSTAL_PREFIX.sub('', sanitize_text(value)).strip()
+
+
+def is_valid_swiss_postal_code(value):
+    """True when the cleaned postal code is a four-digit CH/LI code."""
+    return bool(SWISS_POSTAL_CODE.match(clean_postal_code(value)))
 
 
 def structured_address(street, street2, zip_code, city, street_name=None, street_number=None, street_number2=None):

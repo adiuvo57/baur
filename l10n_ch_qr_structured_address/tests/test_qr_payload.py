@@ -149,8 +149,17 @@ class TestSwissQRStructuredAddress(AccountTestInvoicingCommon):
         self.assertTrue(all('\n' not in line for line in lines))
 
     def test_postal_code_prefix_stripped(self):
-        self.customer.zip = 'CH-1003'
-        self.assertEqual(self._payload()[DEBT_ZIP], '1003')
+        for raw in ('CH-1003', 'CH1003', 'CH 1003'):
+            self.customer.zip = raw
+            self.assertEqual(self._payload()[DEBT_ZIP], '1003', raw)
+            self.assertFalse(self.bank_iban._check_for_qr_code_errors('ch_qr', 150.0, self.chf, self.customer, '', ''), raw)
+
+    def test_invalid_swiss_postal_code_is_an_error(self):
+        for raw in ('100', '10035', 'Lausanne', '1003 Lausanne'):
+            self.customer.zip = raw
+            message = self.bank_iban._check_for_qr_code_errors('ch_qr', 150.0, self.chf, self.customer, '', '')
+            self.assertTrue(message, raw)
+            self.assertIn('not a valid Swiss postal code', message)
 
     def test_missing_number_allowed_when_setting_off(self):
         self.company.l10n_ch_qr_require_building_number = False

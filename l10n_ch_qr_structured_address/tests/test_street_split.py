@@ -3,7 +3,7 @@
 """Pure-Python tests of the address helpers (no database needed)."""
 from odoo.tests.common import BaseCase, tagged
 
-from ..tools.address import clean_postal_code, sanitize_text, street_split, structured_address
+from ..tools.address import clean_postal_code, is_valid_swiss_postal_code, sanitize_text, street_split, structured_address
 
 
 @tagged('standard', 'at_install', 'l10n_ch_qr')
@@ -76,6 +76,15 @@ class TestSanitize(BaseCase):
         self.assertEqual(clean_postal_code('ch - 3628'), '3628')
         self.assertEqual(clean_postal_code('FL-9490'), '9490')
         self.assertEqual(clean_postal_code('3628'), '3628')
+        self.assertEqual(clean_postal_code('CH3628'), '3628')
+        self.assertEqual(clean_postal_code('CH 3628'), '3628')
+        self.assertEqual(clean_postal_code('CH \u2013 3628'), '3628')   # en dash
+
+    def test_swiss_postal_code_validity(self):
+        for ok in ('3628', 'CH-3628', 'CH3628', ' 8001 ', 'FL-9490'):
+            self.assertTrue(is_valid_swiss_postal_code(ok), ok)
+        for bad in ('362', '36280', 'CH', 'Bern', '', None, '3628 Uttigen'):
+            self.assertFalse(is_valid_swiss_postal_code(bad), bad)
 
 
 @tagged('standard', 'at_install', 'l10n_ch_qr')

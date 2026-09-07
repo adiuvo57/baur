@@ -47,6 +47,16 @@ msgstr "%s: Die Postleitzahl fehlt."
 #. module: l10n_ch_qr_structured_address
 #: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
 #, python-format
+msgid ""
+"%(label)s: the postal code '%(zip)s' is not a valid Swiss postal code. Enter "
+"the four digits only, without country prefix (e.g. '3628', not 'CH-3628')."
+msgstr ""
+"%(label)s: Die Postleitzahl «%(zip)s» ist keine gültige Schweizer PLZ. Nur "
+"die vier Ziffern erfassen, ohne Länderkürzel (z.B. «3628», nicht «CH-3628»)."
+
+#. module: l10n_ch_qr_structured_address
+#: code:addons/l10n_ch_qr_structured_address/models/res_bank.py:0
+#, python-format
 msgid "%s: the street is missing."
 msgstr "%s: Die Strasse fehlt."
 

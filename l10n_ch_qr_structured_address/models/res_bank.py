@@ -9,6 +9,8 @@ from ..tools.address import (
     PAYLOAD_LINES,
     ULTIMATE_DEBTOR_BLOCK,
     UNSTRUCTURED_MESSAGE_INDEX,
+    clean_postal_code,
+    is_valid_swiss_postal_code,
     sanitize_text,
     structured_address,
 )
@@ -118,6 +120,12 @@ class ResPartnerBank(models.Model):
             errors.append(_("%s: the country is missing.", label))
         if not partner.zip:
             errors.append(_("%s: the postal code is missing.", label))
+        elif partner.country_id.code in ('CH', 'LI') and not is_valid_swiss_postal_code(partner.zip):
+            errors.append(_(
+                "%(label)s: the postal code '%(zip)s' is not a valid Swiss postal code. "
+                "Enter the four digits only, without country prefix (e.g. '3628', not 'CH-3628').",
+                label=label, zip=partner.zip,
+            ))
         if not partner.city:
             errors.append(_("%s: the city is missing.", label))
 
